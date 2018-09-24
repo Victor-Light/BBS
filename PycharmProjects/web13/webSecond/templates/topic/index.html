@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bbs club</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/lib/editor/editor.css">
+    <link rel="stylesheet" href="/static/lib/webuploader/webuploader.css">
+    <script src="/static/lib/jquery-3.0.0.min.js"></script>
+    <script src="/static/lib/markdownit.js"></script>
+    <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
+    <script src="/static/lib/editor/editor.js"></script>
+    <script src="/static/lib/editor/ext.js"></script>
+    <style>
+        .delete_by_manager{
+            visibility: hidden;
+        }
+        .title{
+            margin: 1px;
+            padding: 10px;
+            color: #b94a48;
+            border-width: 10px;
+            border-color: lightblue;
+            border-style: solid;
+        }
+        #main{
+            margin-top: 20px;
+        }
+        .head_portrait{
+            text-align: center;
+        }
+        .inner{
+            /* it seems like inline */
+            display: flex;
+        }
+        .inner_left{
+            flex-grow: 2;
+        }
+        .head_portrait{
+            flex-grow: 2;
+        }
+    </style>
+</head>
+<body>
+<div class="title">
+        some ICON
+</div>
+<div id="main">
+    <div id="sidebar">
+        <div class="panel">
+            <div class="inner">
+                <div class="inner_left">
+                    <a href="/topic/new" class="create_topic_btn">
+                        <span class="span-success">New Topic</span>
+                    </a>
+                    <br>
+                    <a href="/profile" class="create_topic_btn">
+                        <span class="span-success" style="margin-top: 7px;">My  Profile</span>
+                    </a>
+                </div>
+                <div class = head_portrait>
+                    <img src={{ '/uploads/' + user.user_image + '?v=3&amp;s=120' }}
+                            style="width:60px;height:60px;" title="atian25"/ >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="panel">
+            <div class="header">
+                <a href="/topic"
+                   class="topic-tab current-tab">
+                    All
+                </a>
+
+                {% for b in bs %}
+                <a href="/topic?board_id={{ b.id }}"
+                   class="topic-tab current-tab">
+                    {{ b.title }}
+                </a>
+                {% endfor %}
+            </div>
+            <div class="inner post">
+                <div class="topic_list">
+                    {% for t in ms %}
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+
+                            <a class="user_avatar pull-left">
+                                 <img src={{ '/uploads/' + t.user().user_image + '?v=3&amp;s=120' }}
+                            title="atian25"/>
+                            </a>
+
+                            <a class="topic_title" href="{{ url_for('topic.detail', id=t.id) }}">
+                                {{ t.title }}
+                            </a>
+                            <span>{{ t.replies() | count }} / {{ t.views }}</span>
+                            <a class="topic_title" href="{{ url_for('topic.delete', id=t.id, token=token) }}">
+                            </a>
+                            <a class="delete_by_manager">
+                                delete
+                            </a>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  (function () {
+    var editor = new Editor();
+    editor.render($('.editor')[0]);
+  })();
+
+</script>
+</body>
+</html>

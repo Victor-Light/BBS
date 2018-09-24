@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>profile</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/lib/editor/editor.css">
+    <link rel="stylesheet" href="/static/lib/webuploader/webuploader.css">
+    <script src="/static/lib/jquery-3.0.0.min.js"></script>
+    <script src="/static/lib/markdownit.js"></script>
+    <script src="/static/lib/webuploader/webuploader.withoutimage.js"></script>
+    <script src="/static/lib/editor/editor.js"></script>
+    <script src="/static/lib/editor/ext.js"></script>
+</head>
+<body>
+    <h1>My Profile</h1>
+    <br>
+    <div>
+        <div>
+            {{ user.username }}
+        </div>
+        <a class="user_avatar pull-left">
+                                 <img src={{ '/uploads/' + user.user_image + '?v=3&amp;s=120' }}
+                            title="atian25"/>
+        </a>
+    </div>
+    <div>
+        <a href="/mail" class="user_mile">
+                    <span class="user_mile">email</span>
+        </a>
+    </div>
+    <div class="inner post">
+                <div class="topic_list">
+                    {% for t in ms %}
+                    <div class="cell">
+                        <div class="topic_title_wrapper">
+
+                            <a class="user_avatar pull-left">
+                                 <img src={{ '/uploads/' + t.user().user_image + '?v=3&amp;s=120' }}
+                            title="atian25"/>
+                            </a>
+
+                            <a class="topic_title">
+                                {{ t.title }}
+                            </a>
+                            <span>{{ t.replies() | count }} / {{ t.views }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+    </div>
+
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post action={{ url_for(".add_img") }} enctype=multipart/form-data>
+      <p><input type=file value=file>
+         <input type=submit value=Upload>
+    </form>
+
+</body>
+</html>
